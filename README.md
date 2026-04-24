@@ -1,22 +1,22 @@
 # Figaro
 
-ローカルLLM（Ollama）を使って、gitの変更内容からブランチ作成 → コミット → PR作成までを一気通貫で自動化するCLIツール。
+A CLI tool that automates the entire git workflow — branch creation, commit, and PR — from your working tree changes, using a local LLM (Ollama).
 
-## 特徴
+## Features
 
-- **オフライン動作** — LLM推論はすべてローカルのOllamaに投げる。コードが外に出ない
-- **高速** — Goのシングルバイナリで起動オーバーヘッドなし
-- **安全** — 実行前に生成結果を確認・編集・再生成できる
+- **Offline** — All LLM inference runs locally via Ollama. Your code never leaves your machine.
+- **Fast** — Single Go binary with minimal startup overhead.
+- **Safe** — Review, edit, or regenerate the output before any git operations are performed.
 
-## インストール
+## Installation
 
-### Go でインストール
+### Via Go
 
 ```bash
 go install github.com/moneyforward/figaro/cmd/figaro@latest
 ```
 
-### ソースからビルド
+### From source
 
 ```bash
 git clone https://github.com/moneyforward/figaro
@@ -24,101 +24,100 @@ cd figaro
 make install
 ```
 
-## 前提条件
+## Prerequisites
 
-- `git` がインストール済みで、カレントディレクトリがgitリポジトリ
-- `gh`（GitHub CLI）がインストール済みで認証済み（`gh auth login`）
-- `ollama serve` が起動中
-- デフォルトモデル `gemma4:latest` がpull済み（`ollama pull gemma4:latest`）
+- `git` installed and the current directory is a git repository
+- `gh` (GitHub CLI) installed and authenticated (`gh auth login`)
+- `ollama serve` running
+- Default model `gemma4:latest` pulled (`ollama pull gemma4:latest`)
 
-## 使い方
+## Usage
 
 ```bash
 figaro [options]
 ```
 
-作業ツリーの変更を検知し、以下を自動実行します：
+Figaro detects changes in your working tree and automatically:
 
-1. ブランチ名を生成してブランチを作成
-2. コミットメッセージを生成してコミット
-3. PR title / description を生成してPRを作成
+1. Generates a branch name and creates the branch
+2. Generates a commit message and commits
+3. Generates a PR title and description and opens the PR
 
-### オプション
+### Options
 
-| オプション      | デフォルト               | 説明                                           |
-| --------------- | ------------------------ | ---------------------------------------------- |
-| `--model`       | `gemma4:latest`          | 使用するOllamaモデル                           |
-| `--ollama-host` | `http://localhost:11434` | Ollamaエンドポイント                           |
-| `--dry-run`     | false                    | 生成結果の表示のみ。実際のgit/gh操作は行わない |
-| `--yes` / `-y`  | false                    | 確認プロンプトをスキップ（CI用）               |
-| `--draft`       | false                    | PRをdraftで作成                                |
-| `--base`        | 自動検出                 | PRのベースブランチ                             |
-| `--no-pull`     | false                    | デフォルトブランチへの`git pull`をスキップ     |
+| Option          | Default                  | Description                                          |
+| --------------- | ------------------------ | ---------------------------------------------------- |
+| `--model`       | `gemma4:latest`          | Ollama model to use                                  |
+| `--ollama-host` | `http://localhost:11434` | Ollama endpoint                                      |
+| `--dry-run`     | false                    | Generate and preview output only; no git/gh operations |
+| `--yes` / `-y`  | false                    | Skip confirmation prompts (for CI use)               |
+| `--draft`       | false                    | Create the PR as a draft                             |
+| `--base`        | auto-detected            | Base branch for the PR                               |
+| `--no-pull`     | false                    | Skip `git pull` on the default branch                |
 
-### 終了コード
+### Exit codes
 
-| コード | 意味               |
-| ------ | ------------------ |
-| 0      | 成功               |
-| 1      | ユーザーキャンセル |
-| 2      | git操作失敗        |
-| 3      | Ollama失敗         |
-| 4      | gh失敗             |
-| 10     | 前提条件不足       |
+| Code | Meaning             |
+| ---- | ------------------- |
+| 0    | Success             |
+| 1    | Cancelled by user   |
+| 2    | Git operation failed |
+| 3    | Ollama failed       |
+| 4    | gh failed           |
+| 10   | Prerequisites not met |
 
-## トラブルシューティング
+## Troubleshooting
 
-### Ollama が起動していない
+### Ollama is not running
 
 ```bash
 ollama serve
 ```
 
-### モデルが存在しない
+### Model not found
 
 ```bash
 ollama pull gemma4:latest
 ```
 
-### `stash pop` でコンフリクト
+### Conflict on `stash pop`
 
-Figaroはコンフリクト時に自動解消を試みず、stashを残したまま終了します。
-表示されたstash IDを確認して手動で解消してください：
+Figaro does not attempt to resolve conflicts automatically. It exits leaving the stash intact.
+Check the stash ID shown in the error and resolve manually:
 
 ```bash
-# コンフリクトの確認
+# Check what's conflicting
 git status
 
-# コンフリクト解消後
+# After resolving conflicts
 git add .
 git stash drop stash@{0}
 
-# Figaro を再実行
+# Re-run Figaro
 figaro
 ```
 
-### push失敗後の手動実行
+### Push failed — manual recovery
 
 ```bash
 git push -u origin HEAD
 ```
 
-### PR作成失敗後の手動実行
+### PR creation failed — manual recovery
 
 ```bash
-# Figaro が表示するコマンドを実行
 gh pr create --title "..." --body-file /tmp/figaro-pr-body-*.md --base main
 ```
 
-## 開発
+## Development
 
 ```bash
-# テスト実行
+# Run tests
 make test
 
-# ビルド
+# Build
 make build
 
-# リント
+# Lint
 make lint
 ```
