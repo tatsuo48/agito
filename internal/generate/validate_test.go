@@ -26,7 +26,48 @@ func TestValidate_Valid(t *testing.T) {
 	}
 }
 
-func TestValidate_InvalidBranchName(t *testing.T) {
+func TestSanitize_BranchNameUppercaseUnderscore(t *testing.T) {
+	// docs/README_copy → docs/readme-copy
+	raw := `{
+		"branch_name": "docs/README_copy",
+		"commit_type": "docs",
+		"commit_scope": "",
+		"commit_subject": "update readme",
+		"commit_body": "Updated README.",
+		"pr_title": "docs: update readme",
+		"pr_body": "## Context\n\n...\n\n## Changes\n\n...\n\n## How to verify\n\n..."
+	}`
+	result, err := generate.ParseAndValidate([]byte(raw))
+	if err != nil {
+		t.Fatalf("unexpected error after sanitize: %v", err)
+	}
+	if result.BranchName != "docs/readme-copy" {
+		t.Errorf("expected 'docs/readme-copy', got %q", result.BranchName)
+	}
+}
+
+func TestSanitize_BranchNameNoPrefix(t *testing.T) {
+	// readme-update → chore/readme-update
+	raw := `{
+		"branch_name": "readme-update",
+		"commit_type": "chore",
+		"commit_scope": "",
+		"commit_subject": "update readme",
+		"commit_body": "Updated README.",
+		"pr_title": "chore: update readme",
+		"pr_body": "## Context\n\n...\n\n## Changes\n\n...\n\n## How to verify\n\n..."
+	}`
+	result, err := generate.ParseAndValidate([]byte(raw))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if result.BranchName != "chore/readme-update" {
+		t.Errorf("expected 'chore/readme-update', got %q", result.BranchName)
+	}
+}
+
+func TestSanitize_BranchNameNoSlashConvertsToChore(t *testing.T) {
+	// "INVALID_BRANCH" has no prefix slash, gets sanitized to chore/invalid-branch
 	raw := `{
 		"branch_name": "INVALID_BRANCH",
 		"commit_type": "feat",
@@ -36,13 +77,17 @@ func TestValidate_InvalidBranchName(t *testing.T) {
 		"pr_title": "title",
 		"pr_body": "body"
 	}`
-	_, err := generate.ParseAndValidate([]byte(raw))
-	if err == nil {
-		t.Fatal("expected validation error for invalid branch_name")
+	result, err := generate.ParseAndValidate([]byte(raw))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if result.BranchName != "chore/invalid-branch" {
+		t.Errorf("expected 'chore/invalid-branch', got %q", result.BranchName)
 	}
 }
 
-func TestValidate_SubjectTooLong(t *testing.T) {
+func TestSanitize_SubjectTooLongIsTruncated(t *testing.T) {
+	// 73-rune subject gets truncated to 72 runes by sanitize
 	raw := `{
 		"branch_name": "feat/something",
 		"commit_type": "feat",
@@ -52,9 +97,12 @@ func TestValidate_SubjectTooLong(t *testing.T) {
 		"pr_title": "title",
 		"pr_body": "body"
 	}`
-	_, err := generate.ParseAndValidate([]byte(raw))
-	if err == nil {
-		t.Fatal("expected validation error for long subject")
+	result, err := generate.ParseAndValidate([]byte(raw))
+	if err != nil {
+		t.Fatalf("unexpected error after sanitize: %v", err)
+	}
+	if len([]rune(result.CommitSubject)) != 72 {
+		t.Errorf("expected 72 runes, got %d", len([]rune(result.CommitSubject)))
 	}
 }
 
