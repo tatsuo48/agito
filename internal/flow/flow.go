@@ -19,7 +19,6 @@ import (
 type Config struct {
 	Model      string
 	OllamaHost string
-	Language   string
 	DryRun     bool
 	Yes        bool
 	Draft      bool
@@ -124,7 +123,7 @@ func Run(cfg Config) error {
 		NumCtx:      16384,
 	}
 
-	content, err := generate.Run(ollamaCfg, diff, cfg.Language, "")
+	content, err := generate.Run(ollamaCfg, diff, "")
 	if err != nil {
 		return err
 	}
@@ -153,7 +152,7 @@ func Run(cfg Config) error {
 			continue
 		case ui.ActionRegenerate:
 			fmt.Fprintf(w, "Regenerating with %s...\n", cfg.Model)
-			content, err = generate.Run(ollamaCfg, diff, cfg.Language, extra)
+			content, err = generate.Run(ollamaCfg, diff, extra)
 			if err != nil {
 				return err
 			}

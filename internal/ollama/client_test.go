@@ -19,7 +19,7 @@ func TestGenerate_Success(t *testing.T) {
 	defer srv.Close()
 
 	cfg := ollama.Config{Host: srv.URL, Model: "test-model", Temperature: 0.3, NumCtx: 4096}
-	out, err := ollama.Generate(cfg, "test diff", "ja", "")
+	out, err := ollama.Generate(cfg, "test diff", "")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -38,28 +38,24 @@ func TestGenerate_OllamaError(t *testing.T) {
 	defer srv.Close()
 
 	cfg := ollama.Config{Host: srv.URL, Model: "bad-model", Temperature: 0.3, NumCtx: 4096}
-	_, err := ollama.Generate(cfg, "diff", "ja", "")
+	_, err := ollama.Generate(cfg, "diff", "")
 	if err == nil {
 		t.Fatal("expected error")
 	}
 }
 
-func TestBuildPrompt_Japanese(t *testing.T) {
-	prompt := ollama.BuildPrompt("some diff", "ja", "")
-	if !strings.Contains(prompt, "背景") {
-		t.Error("expected Japanese PR sections")
-	}
-}
-
-func TestBuildPrompt_English(t *testing.T) {
-	prompt := ollama.BuildPrompt("some diff", "en", "")
-	if !strings.Contains(prompt, "Context") {
+func TestBuildPrompt_ContainsEnglishSections(t *testing.T) {
+	prompt := ollama.BuildPrompt("some diff", "")
+	if !strings.Contains(prompt, "## Context") {
 		t.Error("expected English PR sections")
+	}
+	if !strings.Contains(prompt, "## Changes") {
+		t.Error("expected Changes section")
 	}
 }
 
 func TestBuildPrompt_ExtraInstruction(t *testing.T) {
-	prompt := ollama.BuildPrompt("diff", "ja", "keep it brief")
+	prompt := ollama.BuildPrompt("diff", "keep it brief")
 	if !strings.Contains(prompt, "keep it brief") {
 		t.Error("expected extra instruction in prompt")
 	}

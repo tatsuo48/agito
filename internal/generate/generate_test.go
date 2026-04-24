@@ -17,7 +17,7 @@ func validContent() generate.Content {
 		CommitSubject: "add test coverage",
 		CommitBody:    "Added comprehensive tests.",
 		PRTitle:       "feat: add test coverage",
-		PRBody:        "## 背景\n\n...\n\n## 変更内容\n\n...\n\n## 確認方法\n\n...",
+		PRBody:        "## Context\n\n...\n\n## Changes\n\n...\n\n## How to verify\n\n...",
 	}
 }
 
@@ -30,7 +30,7 @@ func TestRun_SuccessOnFirstTry(t *testing.T) {
 	defer srv.Close()
 
 	cfg := ollama.Config{Host: srv.URL, Model: "test", Temperature: 0.3, NumCtx: 4096}
-	result, err := generate.Run(cfg, "test diff", "ja", "")
+	result, err := generate.Run(cfg, "test diff", "")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -57,7 +57,7 @@ func TestRun_RetriesOnInvalidJSON(t *testing.T) {
 	defer srv.Close()
 
 	cfg := ollama.Config{Host: srv.URL, Model: "test", Temperature: 0.3, NumCtx: 4096}
-	result, err := generate.Run(cfg, "diff", "ja", "")
+	result, err := generate.Run(cfg, "diff", "")
 	if err != nil {
 		t.Fatalf("unexpected error after retry: %v", err)
 	}
@@ -76,7 +76,7 @@ func TestRun_FailsAfterMaxRetries(t *testing.T) {
 	defer srv.Close()
 
 	cfg := ollama.Config{Host: srv.URL, Model: "test", Temperature: 0.3, NumCtx: 4096}
-	_, err := generate.Run(cfg, "diff", "ja", "")
+	_, err := generate.Run(cfg, "diff", "")
 	if err == nil {
 		t.Fatal("expected error after max retries")
 	}

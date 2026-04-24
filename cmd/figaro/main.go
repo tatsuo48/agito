@@ -39,8 +39,7 @@ func run() error {
 
 	flag.StringVar(&cfg.Model, "model", "gemma4:latest", "Ollama model to use")
 	flag.StringVar(&cfg.OllamaHost, "ollama-host", "http://localhost:11434", "Ollama endpoint")
-	flag.StringVar(&cfg.Language, "language", "ja", "Generation language (ja or en)")
-	flag.BoolVar(&cfg.DryRun, "dry-run", false, "Show generated content only, no git/gh operations")
+flag.BoolVar(&cfg.DryRun, "dry-run", false, "Show generated content only, no git/gh operations")
 
 	// --yes and -y both set the same field
 	flag.BoolVar(&cfg.Yes, "yes", false, "Skip confirmation prompts (CI use)")

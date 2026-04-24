@@ -33,8 +33,8 @@ type generateResponse struct {
 }
 
 // Generate calls Ollama and returns the raw JSON string from the model.
-func Generate(cfg Config, diffContent, language, extraInstruction string) (string, error) {
-	prompt := BuildPrompt(diffContent, language, extraInstruction)
+func Generate(cfg Config, diffContent, extraInstruction string) (string, error) {
+	prompt := BuildPrompt(diffContent, extraInstruction)
 	body := generateRequest{
 		Model:  cfg.Model,
 		Prompt: prompt,

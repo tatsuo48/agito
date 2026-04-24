@@ -9,7 +9,7 @@ import (
 const maxRetries = 2
 
 // Run calls Ollama, validates the output, and retries up to maxRetries times on validation failure.
-func Run(cfg ollama.Config, diffContent, language, extraInstruction string) (*Content, error) {
+func Run(cfg ollama.Config, diffContent, extraInstruction string) (*Content, error) {
 	var lastErr error
 	prevInvalid := ""
 
@@ -22,7 +22,7 @@ func Run(cfg ollama.Config, diffContent, language, extraInstruction string) (*Co
 			extra += "Previous output was invalid because: " + prevInvalid
 		}
 
-		raw, err := ollama.Generate(cfg, diffContent, language, extra)
+		raw, err := ollama.Generate(cfg, diffContent, extra)
 		if err != nil {
 			return nil, err
 		}
