@@ -104,16 +104,6 @@ func Run(cfg Config) error {
 		return fmt.Errorf("%w: %v", apperr.ErrGit, err)
 	}
 
-	if cfg.DryRun {
-		preview := diff
-		if len(preview) > 500 {
-			preview = preview[:500] + "\n... (truncated)"
-		}
-		fmt.Fprintln(w, "\n[dry-run] diff obtained:")
-		fmt.Fprintln(w, preview)
-		return nil
-	}
-
 	// Step 6: Generate with Ollama
 	fmt.Fprintf(w, "\nGenerating with %s...\n", cfg.Model)
 	ollamaCfg := ollama.Config{
@@ -126,6 +116,14 @@ func Run(cfg Config) error {
 	content, err := generate.Run(ollamaCfg, diff, "")
 	if err != nil {
 		return err
+	}
+
+	if cfg.DryRun {
+		fmt.Fprintln(w, "\n[dry-run] No git/gh operations will be performed.\n")
+		ui.ShowSummary(w, content)
+		fmt.Fprintln(w, "\nPR Body:")
+		fmt.Fprintln(w, content.PRBody)
+		return nil
 	}
 
 	// Step 7: User confirmation loop
