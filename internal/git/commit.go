@@ -14,9 +14,14 @@ func Checkout(r Runner, branch string) error {
 	return nil
 }
 
-// Pull performs a fast-forward-only pull from origin.
+// Pull fetches and fast-forward merges from origin.
+// Uses fetch + merge --ff-only instead of pull to avoid FETCH_HEAD ambiguity
+// when multiple branches have been fetched previously.
 func Pull(r Runner, branch string) error {
-	_, err := r.Run("git", "pull", "--ff-only", "origin", branch)
+	if _, err := r.Run("git", "fetch", "origin", branch); err != nil {
+		return err
+	}
+	_, err := r.Run("git", "merge", "--ff-only", "origin/"+branch)
 	return err
 }
 
