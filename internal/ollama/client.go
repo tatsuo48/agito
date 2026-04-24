@@ -21,11 +21,14 @@ type Config struct {
 
 type generateRequest struct {
 	Model   string         `json:"model"`
+	System  string         `json:"system"`
 	Prompt  string         `json:"prompt"`
 	Format  string         `json:"format"`
 	Stream  bool           `json:"stream"`
 	Options map[string]any `json:"options"`
 }
+
+const systemPrompt = "You are a git assistant. You MUST respond only in English. Never use Japanese, Chinese, Korean, or any language other than English in your output, regardless of the language in the diff you are analyzing."
 
 type generateResponse struct {
 	Response string `json:"response"`
@@ -37,6 +40,7 @@ func Generate(cfg Config, diffContent, extraInstruction string) (string, error) 
 	prompt := BuildPrompt(diffContent, extraInstruction)
 	body := generateRequest{
 		Model:  cfg.Model,
+		System: systemPrompt,
 		Prompt: prompt,
 		Format: "json",
 		Stream: false,
