@@ -42,3 +42,12 @@ func (f *FakeRunner) Run(name string, args ...string) (string, error) {
 	f.Calls = append(f.Calls, call)
 	return f.Output, f.Err
 }
+
+// FuncRunner is a test stub that delegates to a function.
+type FuncRunner struct {
+	RunFn func(name string, args ...string) (string, error)
+}
+
+func (f *FuncRunner) Run(name string, args ...string) (string, error) {
+	return f.RunFn(name, args...)
+}
