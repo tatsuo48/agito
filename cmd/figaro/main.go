@@ -2,10 +2,12 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 
 	"github.com/moneyforward/figaro/internal/apperr"
+	"github.com/moneyforward/figaro/internal/flow"
 )
 
 func main() {
@@ -33,6 +35,22 @@ func exitCode(err error) int {
 }
 
 func run() error {
-	fmt.Println("figaro: not yet implemented")
-	return nil
+	cfg := flow.Config{}
+
+	flag.StringVar(&cfg.Model, "model", "gemma4:latest", "Ollama model to use")
+	flag.StringVar(&cfg.OllamaHost, "ollama-host", "http://localhost:11434", "Ollama endpoint")
+	flag.StringVar(&cfg.Language, "language", "ja", "Generation language (ja or en)")
+	flag.BoolVar(&cfg.DryRun, "dry-run", false, "Show generated content only, no git/gh operations")
+
+	// --yes and -y both set the same field
+	flag.BoolVar(&cfg.Yes, "yes", false, "Skip confirmation prompts (CI use)")
+	flag.BoolVar(&cfg.Yes, "y", false, "Skip confirmation prompts (CI use)")
+
+	flag.BoolVar(&cfg.Draft, "draft", false, "Create PR as draft")
+	flag.StringVar(&cfg.Base, "base", "", "PR base branch (auto-detected if empty)")
+	flag.BoolVar(&cfg.NoPull, "no-pull", false, "Skip git pull on default branch")
+
+	flag.Parse()
+
+	return flow.Run(cfg)
 }
