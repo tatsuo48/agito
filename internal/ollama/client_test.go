@@ -10,11 +10,16 @@ import (
 	"github.com/moneyforward/figaro/internal/ollama"
 )
 
+func chatResp(content string) map[string]any {
+	return map[string]any{
+		"message": map[string]string{"role": "assistant", "content": content},
+	}
+}
+
 func TestGenerate_Success(t *testing.T) {
 	want := `{"branch_name":"feat/test","commit_type":"feat","commit_scope":"api","commit_subject":"add test","commit_body":"body","pr_title":"feat: add test","pr_body":"## Context\n\ndetails"}`
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := map[string]string{"response": want}
-		json.NewEncoder(w).Encode(resp)
+		json.NewEncoder(w).Encode(chatResp(want))
 	}))
 	defer srv.Close()
 

@@ -21,11 +21,17 @@ func validContent() generate.Content {
 	}
 }
 
+func chatResp(content string) map[string]any {
+	return map[string]any{
+		"message": map[string]string{"role": "assistant", "content": content},
+	}
+}
+
 func TestRun_SuccessOnFirstTry(t *testing.T) {
 	payload := validContent()
 	b, _ := json.Marshal(payload)
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(map[string]string{"response": string(b)})
+		json.NewEncoder(w).Encode(chatResp(string(b)))
 	}))
 	defer srv.Close()
 
@@ -47,12 +53,10 @@ func TestRun_RetriesOnInvalidJSON(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		callCount++
 		if callCount == 1 {
-			// First attempt: invalid response
-			json.NewEncoder(w).Encode(map[string]string{"response": "not valid json"})
+			json.NewEncoder(w).Encode(chatResp("not valid json"))
 			return
 		}
-		// Second attempt: valid response
-		json.NewEncoder(w).Encode(map[string]string{"response": string(b)})
+		json.NewEncoder(w).Encode(chatResp(string(b)))
 	}))
 	defer srv.Close()
 
@@ -71,7 +75,8 @@ func TestRun_RetriesOnInvalidJSON(t *testing.T) {
 
 func TestRun_FailsAfterMaxRetries(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(map[string]string{"response": `{"branch_name":"INVALID"}`})
+		// commit_type "invalid" cannot be sanitized, will always fail validation
+		json.NewEncoder(w).Encode(chatResp(`{"branch_name":"feat/test","commit_type":"invalid","commit_subject":"x","pr_title":"x","pr_body":"x","commit_body":"x"}`))
 	}))
 	defer srv.Close()
 

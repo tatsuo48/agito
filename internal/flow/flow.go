@@ -119,7 +119,7 @@ func Run(cfg Config) error {
 	}
 
 	if cfg.DryRun {
-		fmt.Fprintln(w, "\n[dry-run] No git/gh operations will be performed.\n")
+		fmt.Fprintln(w, "\n[dry-run] No git/gh operations will be performed.")
 		ui.ShowSummary(w, content)
 		fmt.Fprintln(w, "\nPR Body:")
 		fmt.Fprintln(w, content.PRBody)
