@@ -1,0 +1,66 @@
+package ollama_test
+
+import (
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
+	"github.com/moneyforward/figaro/internal/ollama"
+)
+
+func TestGenerate_Success(t *testing.T) {
+	want := `{"branch_name":"feat/test","commit_type":"feat","commit_scope":"api","commit_subject":"add test","commit_body":"body","pr_title":"feat: add test","pr_body":"## Context\n\ndetails"}`
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := map[string]string{"response": want}
+		json.NewEncoder(w).Encode(resp)
+	}))
+	defer srv.Close()
+
+	cfg := ollama.Config{Host: srv.URL, Model: "test-model", Temperature: 0.3, NumCtx: 4096}
+	out, err := ollama.Generate(cfg, "test diff", "ja", "")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if out == "" {
+		t.Fatal("expected non-empty output")
+	}
+	if !strings.Contains(out, "feat/test") {
+		t.Errorf("expected branch name in output, got %q", out)
+	}
+}
+
+func TestGenerate_OllamaError(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		json.NewEncoder(w).Encode(map[string]string{"error": "model not found"})
+	}))
+	defer srv.Close()
+
+	cfg := ollama.Config{Host: srv.URL, Model: "bad-model", Temperature: 0.3, NumCtx: 4096}
+	_, err := ollama.Generate(cfg, "diff", "ja", "")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+}
+
+func TestBuildPrompt_Japanese(t *testing.T) {
+	prompt := ollama.BuildPrompt("some diff", "ja", "")
+	if !strings.Contains(prompt, "背景") {
+		t.Error("expected Japanese PR sections")
+	}
+}
+
+func TestBuildPrompt_English(t *testing.T) {
+	prompt := ollama.BuildPrompt("some diff", "en", "")
+	if !strings.Contains(prompt, "Context") {
+		t.Error("expected English PR sections")
+	}
+}
+
+func TestBuildPrompt_ExtraInstruction(t *testing.T) {
+	prompt := ollama.BuildPrompt("diff", "ja", "keep it brief")
+	if !strings.Contains(prompt, "keep it brief") {
+		t.Error("expected extra instruction in prompt")
+	}
+}
