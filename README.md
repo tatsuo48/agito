@@ -1,5 +1,7 @@
 # Agito
 
+test pr
+
 A CLI tool that automates the entire git workflow — branch creation, commit, and PR — from your working tree changes, using a local LLM (Ollama).
 
 ## Features
@@ -126,9 +128,9 @@ Or manage plugins interactively with `/plugin` inside Claude Code.
 
 After installing, trigger the skill in any Claude Code conversation:
 
-- *"Create a PR with agito"*
-- *"Use agito to make a PR"*
-- *"agito PR, draft mode"*
+- _"Create a PR with agito"_
+- _"Use agito to make a PR"_
+- _"agito PR, draft mode"_
 
 Claude Code will check that Ollama is running and `agito` is installed, then run
 `agito --yes` (with your chosen options) automatically.
