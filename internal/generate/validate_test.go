@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/moneyforward/figaro/internal/generate"
+	"github.com/moneyforward/agito/internal/generate"
 )
 
 func TestValidate_Valid(t *testing.T) {

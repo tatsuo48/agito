@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/moneyforward/figaro/internal/generate"
+	"github.com/moneyforward/agito/internal/generate"
 	"gopkg.in/yaml.v3"
 )
 
@@ -125,7 +125,7 @@ func editAll(c *generate.Content) (*generate.Content, error) {
 }
 
 func writeTempFile(content, pattern string) (string, error) {
-	tmp, err := os.CreateTemp("", "figaro-edit-"+pattern)
+	tmp, err := os.CreateTemp("", "agito-edit-"+pattern)
 	if err != nil {
 		return "", err
 	}

@@ -6,13 +6,13 @@ import (
 	"os"
 	"time"
 
-	"github.com/moneyforward/figaro/internal/apperr"
-	"github.com/moneyforward/figaro/internal/generate"
-	"github.com/moneyforward/figaro/internal/gh"
-	"github.com/moneyforward/figaro/internal/git"
-	"github.com/moneyforward/figaro/internal/ollama"
-	"github.com/moneyforward/figaro/internal/prereq"
-	"github.com/moneyforward/figaro/internal/ui"
+	"github.com/moneyforward/agito/internal/apperr"
+	"github.com/moneyforward/agito/internal/generate"
+	"github.com/moneyforward/agito/internal/gh"
+	"github.com/moneyforward/agito/internal/git"
+	"github.com/moneyforward/agito/internal/ollama"
+	"github.com/moneyforward/agito/internal/prereq"
+	"github.com/moneyforward/agito/internal/ui"
 )
 
 // Config holds the full workflow configuration.
@@ -26,7 +26,7 @@ type Config struct {
 	NoPull     bool
 }
 
-// Run executes the main Figaro workflow.
+// Run executes the main Agito workflow.
 func Run(cfg Config) error {
 	r := &git.RealRunner{}
 	w := os.Stdout
@@ -92,7 +92,7 @@ func Run(cfg Config) error {
 
 	if stashed {
 		if err := git.StashPop(r); err != nil {
-			return fmt.Errorf("%w: stash pop conflict detected.\n  Stash ref: %s\n  Resolve conflicts, then run:\n    git stash drop %s\n  Then re-run figaro",
+			return fmt.Errorf("%w: stash pop conflict detected.\n  Stash ref: %s\n  Resolve conflicts, then run:\n    git stash drop %s\n  Then re-run agito",
 				apperr.ErrGit, stashRef, stashRef)
 		}
 		fmt.Fprintln(w, "  ✓ popped stash")
@@ -209,9 +209,9 @@ func executeFlow(r git.Runner, w io.Writer, content *generate.Content, defaultBr
 	}
 	fmt.Fprintf(w, "\n✓ PR created: %s\n", prURL)
 
-	// Warn if figaro stash was accidentally left behind
-	if hasStash, _ := git.HasFigaroStash(r); hasStash {
-		fmt.Fprintln(w, "⚠  Warning: figaro-auto-stash still in stash list. Check with: git stash list")
+	// Warn if agito stash was accidentally left behind
+	if hasStash, _ := git.HasAgitoStash(r); hasStash {
+		fmt.Fprintln(w, "⚠  Warning: agito-auto-stash still in stash list. Check with: git stash list")
 	}
 
 	return nil

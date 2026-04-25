@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/moneyforward/figaro/internal/apperr"
+	"github.com/moneyforward/agito/internal/apperr"
 )
 
 // Config holds Ollama connection settings.

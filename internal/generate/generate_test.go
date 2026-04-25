@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/moneyforward/figaro/internal/generate"
-	"github.com/moneyforward/figaro/internal/ollama"
+	"github.com/moneyforward/agito/internal/generate"
+	"github.com/moneyforward/agito/internal/ollama"
 )
 
 func validContent() generate.Content {

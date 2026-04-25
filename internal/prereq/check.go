@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/moneyforward/figaro/internal/apperr"
-	"github.com/moneyforward/figaro/internal/git"
+	"github.com/moneyforward/agito/internal/apperr"
+	"github.com/moneyforward/agito/internal/git"
 )
 
 // Config holds the configuration needed for prerequisite checks.

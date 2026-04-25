@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/moneyforward/figaro/internal/apperr"
-	"github.com/moneyforward/figaro/internal/git"
+	"github.com/moneyforward/agito/internal/apperr"
+	"github.com/moneyforward/agito/internal/git"
 )
 
 // PRConfig holds PR creation parameters.
@@ -19,7 +19,7 @@ type PRConfig struct {
 
 // CreatePR creates a GitHub PR using gh CLI and returns the PR URL.
 func CreatePR(r git.Runner, cfg PRConfig) (string, error) {
-	tmp, err := os.CreateTemp("", "figaro-pr-body-*.md")
+	tmp, err := os.CreateTemp("", "agito-pr-body-*.md")
 	if err != nil {
 		return "", fmt.Errorf("%w: creating temp file: %v", apperr.ErrGH, err)
 	}
