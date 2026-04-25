@@ -132,7 +132,7 @@ Use agito directly from [Claude Code](https://claude.ai/code) as a plugin.
 
 **Step 2:** Install the plugin via the `/plugin` slash command in Claude Code:
 
-```
+```text
 /plugin install agito@agito
 ```
 
