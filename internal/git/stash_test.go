@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/moneyforward/agito/internal/git"
+	"github.com/tatsuo48/agito/internal/git"
 )
 
 func TestStashMessage(t *testing.T) {

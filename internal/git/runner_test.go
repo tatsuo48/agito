@@ -3,7 +3,7 @@ package git_test
 import (
 	"testing"
 
-	"github.com/moneyforward/agito/internal/git"
+	"github.com/tatsuo48/agito/internal/git"
 )
 
 func TestFakeRunner(t *testing.T) {

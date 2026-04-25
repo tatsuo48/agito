@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/moneyforward/agito/internal/git"
+	"github.com/tatsuo48/agito/internal/git"
 )
 
 func TestDetectDefaultBranch_SymbolicRef(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/moneyforward/agito/internal/generate"
+	"github.com/tatsuo48/agito/internal/generate"
 	"gopkg.in/yaml.v3"
 )
 

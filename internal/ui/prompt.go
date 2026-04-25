@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/moneyforward/agito/internal/generate"
+	"github.com/tatsuo48/agito/internal/generate"
 )
 
 var (
