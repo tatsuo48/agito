@@ -115,28 +115,12 @@ Use agito directly from [Claude Code](https://claude.ai/code) as a plugin.
 
 ### Plugin Installation
 
-**Step 1:** Register the agito marketplace in `~/.claude/settings.json`:
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "agito": {
-      "source": {
-        "source": "github",
-        "repo": "tatsuo48/agito"
-      }
-    }
-  }
-}
+```bash
+claude plugin marketplace add tatsuo48/agito
+claude plugin install agito@agito
 ```
 
-**Step 2:** Install the plugin via the `/plugin` slash command in Claude Code:
-
-```text
-/plugin install agito@agito
-```
-
-Or manage plugins interactively with `/plugin`.
+Or manage plugins interactively with `/plugin` inside Claude Code.
 
 ### Triggering the Skill
 
