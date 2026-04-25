@@ -115,7 +115,7 @@ Use agito directly from [Claude Code](https://claude.ai/code) as a plugin.
 
 ### Plugin Installation
 
-Add the following to your `~/.claude/settings.json`:
+**Step 1:** Register the agito marketplace in `~/.claude/settings.json`:
 
 ```json
 {
@@ -126,12 +126,17 @@ Add the following to your `~/.claude/settings.json`:
         "repo": "tatsuo48/agito"
       }
     }
-  },
-  "enabledPlugins": {
-    "agito@agito": true
   }
 }
 ```
+
+**Step 2:** Install the plugin via the `/plugin` slash command in Claude Code:
+
+```
+/plugin install agito@agito
+```
+
+Or manage plugins interactively with `/plugin`.
 
 ### Triggering the Skill
 
