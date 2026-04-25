@@ -109,6 +109,41 @@ git push -u origin HEAD
 gh pr create --title "..." --body-file /tmp/agito-pr-body-*.md --base main
 ```
 
+## Claude Code Integration
+
+Use agito directly from [Claude Code](https://claude.ai/code) as a plugin.
+
+### Plugin Installation
+
+Add the following to your `~/.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "agito": {
+      "source": {
+        "source": "github",
+        "repo": "tatsuo48/agito"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "agito@agito": true
+  }
+}
+```
+
+### Triggering the Skill
+
+After installing, trigger the skill in any Claude Code conversation:
+
+- *"Create a PR with agito"*
+- *"Use agito to make a PR"*
+- *"agito PR, draft mode"*
+
+Claude Code will check that Ollama is running and `agito` is installed, then run
+`agito --yes` (with your chosen options) automatically.
+
 ## Development
 
 ```bash
