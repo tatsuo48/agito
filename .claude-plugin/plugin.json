@@ -1,0 +1,19 @@
+{
+  "name": "agito",
+  "description": "Git workflow automation using local Ollama LLM. Generates branch names, commit messages, and pull requests from git diff without sending code to external services.",
+  "version": "1.0.0",
+  "author": {
+    "name": "tatsuo48"
+  },
+  "repository": "https://github.com/tatsuo48/agito",
+  "keywords": [
+    "git",
+    "github",
+    "ollama",
+    "llm",
+    "pr",
+    "commit",
+    "automation",
+    "privacy"
+  ]
+}
