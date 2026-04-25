@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/moneyforward/agito/internal/git"
+	"github.com/tatsuo48/agito/internal/git"
 )
 
 func TestGetDiff_TrackedOnly(t *testing.T) {

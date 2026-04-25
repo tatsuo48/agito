@@ -3,7 +3,7 @@ package generate
 import (
 	"fmt"
 
-	"github.com/moneyforward/agito/internal/ollama"
+	"github.com/tatsuo48/agito/internal/ollama"
 )
 
 const maxRetries = 2

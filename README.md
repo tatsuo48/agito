@@ -13,13 +13,13 @@ A CLI tool that automates the entire git workflow — branch creation, commit, a
 ### Via Go
 
 ```bash
-go install github.com/moneyforward/agito/cmd/agito@latest
+go install github.com/tatsuo48/agito/cmd/agito@latest
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/moneyforward/agito
+git clone https://github.com/tatsuo48/agito
 cd agito
 make install
 ```
@@ -45,25 +45,25 @@ Agito detects changes in your working tree and automatically:
 
 ### Options
 
-| Option          | Default                  | Description                                          |
-| --------------- | ------------------------ | ---------------------------------------------------- |
-| `--model`       | `gemma4:latest`          | Ollama model to use                                  |
-| `--ollama-host` | `http://localhost:11434` | Ollama endpoint                                      |
+| Option          | Default                  | Description                                            |
+| --------------- | ------------------------ | ------------------------------------------------------ |
+| `--model`       | `gemma4:latest`          | Ollama model to use                                    |
+| `--ollama-host` | `http://localhost:11434` | Ollama endpoint                                        |
 | `--dry-run`     | false                    | Generate and preview output only; no git/gh operations |
-| `--yes` / `-y`  | false                    | Skip confirmation prompts (for CI use)               |
-| `--draft`       | false                    | Create the PR as a draft                             |
-| `--base`        | auto-detected            | Base branch for the PR                               |
-| `--no-pull`     | false                    | Skip `git pull` on the default branch                |
+| `--yes` / `-y`  | false                    | Skip confirmation prompts (for CI use)                 |
+| `--draft`       | false                    | Create the PR as a draft                               |
+| `--base`        | auto-detected            | Base branch for the PR                                 |
+| `--no-pull`     | false                    | Skip `git pull` on the default branch                  |
 
 ### Exit codes
 
-| Code | Meaning             |
-| ---- | ------------------- |
-| 0    | Success             |
-| 1    | Cancelled by user   |
-| 2    | Git operation failed |
-| 3    | Ollama failed       |
-| 4    | gh failed           |
+| Code | Meaning               |
+| ---- | --------------------- |
+| 0    | Success               |
+| 1    | Cancelled by user     |
+| 2    | Git operation failed  |
+| 3    | Ollama failed         |
+| 4    | gh failed             |
 | 10   | Prerequisites not met |
 
 ## Troubleshooting

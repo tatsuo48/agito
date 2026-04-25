@@ -1,4 +1,4 @@
-module github.com/moneyforward/agito
+module github.com/tatsuo48/agito
 
 go 1.24.3
 

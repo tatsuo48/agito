@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/moneyforward/agito/internal/apperr"
-	"github.com/moneyforward/agito/internal/git"
+	"github.com/tatsuo48/agito/internal/apperr"
+	"github.com/tatsuo48/agito/internal/git"
 )
 
 // PRConfig holds PR creation parameters.

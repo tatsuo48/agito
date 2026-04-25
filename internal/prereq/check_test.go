@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/moneyforward/agito/internal/git"
-	"github.com/moneyforward/agito/internal/prereq"
+	"github.com/tatsuo48/agito/internal/git"
+	"github.com/tatsuo48/agito/internal/prereq"
 )
 
 func newOllamaServer(model string) *httptest.Server {

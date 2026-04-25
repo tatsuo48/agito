@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/moneyforward/agito/internal/ollama"
+	"github.com/tatsuo48/agito/internal/ollama"
 )
 
 func chatResp(content string) map[string]any {

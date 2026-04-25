@@ -6,13 +6,13 @@ import (
 	"os"
 	"time"
 
-	"github.com/moneyforward/agito/internal/apperr"
-	"github.com/moneyforward/agito/internal/generate"
-	"github.com/moneyforward/agito/internal/gh"
-	"github.com/moneyforward/agito/internal/git"
-	"github.com/moneyforward/agito/internal/ollama"
-	"github.com/moneyforward/agito/internal/prereq"
-	"github.com/moneyforward/agito/internal/ui"
+	"github.com/tatsuo48/agito/internal/apperr"
+	"github.com/tatsuo48/agito/internal/generate"
+	"github.com/tatsuo48/agito/internal/gh"
+	"github.com/tatsuo48/agito/internal/git"
+	"github.com/tatsuo48/agito/internal/ollama"
+	"github.com/tatsuo48/agito/internal/prereq"
+	"github.com/tatsuo48/agito/internal/ui"
 )
 
 // Config holds the full workflow configuration.
