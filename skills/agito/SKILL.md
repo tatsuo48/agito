@@ -1,11 +1,10 @@
 ---
 name: agito
 description: |
-  Automates Git workflow using local Ollama LLM. Generates branch names, commit messages,
-  and pull request content from git diff — without sending code to external services.
-  Use when user says "create a PR with agito", "agito PR", "make a PR locally", or
-  when they explicitly want to use local LLM for git automation.
-  Requires Ollama running locally with gemma4:latest (or another model) pulled.
+  Automates Git workflow — creates a branch, commits changes, and opens a pull request
+  from the current working tree diff. Use when user says "create a PR", "make a PR",
+  "PRを作って", "commit and PR", "push and open a PR", or any similar request to
+  turn current changes into a pull request.
 allowed-tools: Bash Read
 ---
 
