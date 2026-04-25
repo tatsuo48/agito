@@ -1,0 +1,13 @@
+{
+  "name": "agito",
+  "owner": {
+    "name": "tatsuo48"
+  },
+  "plugins": [
+    {
+      "name": "agito",
+      "source": "./",
+      "description": "Git workflow automation using local Ollama LLM. Generates branch names, commit messages, and pull requests from git diff without sending code to external services."
+    }
+  ]
+}
