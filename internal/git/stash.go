@@ -6,9 +6,9 @@ import (
 	"time"
 )
 
-// StashMessage generates the figaro stash message with a timestamp.
+// StashMessage generates the agito stash message with a timestamp.
 func StashMessage(t time.Time) string {
-	return fmt.Sprintf("figaro-auto-stash-%s", t.Format("20060102-150405"))
+	return fmt.Sprintf("agito-auto-stash-%s", t.Format("20060102-150405"))
 }
 
 // StashPush stashes all changes including untracked files.
@@ -37,11 +37,11 @@ func StashDrop(r Runner, ref string) error {
 	return err
 }
 
-// HasFigaroStash checks whether any figaro-auto-stash entries remain.
-func HasFigaroStash(r Runner) (bool, error) {
+// HasAgitoStash checks whether any agito-auto-stash entries remain.
+func HasAgitoStash(r Runner) (bool, error) {
 	out, err := r.Run("git", "stash", "list")
 	if err != nil {
 		return false, err
 	}
-	return strings.Contains(out, "figaro-auto-stash-"), nil
+	return strings.Contains(out, "agito-auto-stash-"), nil
 }

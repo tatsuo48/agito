@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/moneyforward/figaro/internal/apperr"
-	"github.com/moneyforward/figaro/internal/flow"
+	"github.com/moneyforward/agito/internal/apperr"
+	"github.com/moneyforward/agito/internal/flow"
 )
 
 func main() {

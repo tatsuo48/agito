@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/moneyforward/figaro/internal/gh"
-	"github.com/moneyforward/figaro/internal/git"
+	"github.com/moneyforward/agito/internal/gh"
+	"github.com/moneyforward/agito/internal/git"
 )
 
 func TestCreatePR_BuildsArgs(t *testing.T) {

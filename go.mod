@@ -1,4 +1,4 @@
-module github.com/moneyforward/figaro
+module github.com/moneyforward/agito
 
 go 1.24.3
 

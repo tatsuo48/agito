@@ -9,7 +9,7 @@ func BuildPrompt(diffContent, extraInstruction string) string {
 		extra = fmt.Sprintf("\nAdditional user instruction: %s\n", extraInstruction)
 	}
 
-	return fmt.Sprintf(`You are Figaro, a git assistant that generates branch names, commit messages, and pull requests from git diffs.
+	return fmt.Sprintf(`You are Agito, a git assistant that generates branch names, commit messages, and pull requests from git diffs.
 
 IMPORTANT: ALL output text must be written in English, regardless of the language used in the diff.
 

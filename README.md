@@ -1,4 +1,4 @@
-# Figaro
+# Agito
 
 A CLI tool that automates the entire git workflow — branch creation, commit, and PR — from your working tree changes, using a local LLM (Ollama).
 
@@ -13,14 +13,14 @@ A CLI tool that automates the entire git workflow — branch creation, commit, a
 ### Via Go
 
 ```bash
-go install github.com/moneyforward/figaro/cmd/figaro@latest
+go install github.com/moneyforward/agito/cmd/agito@latest
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/moneyforward/figaro
-cd figaro
+git clone https://github.com/moneyforward/agito
+cd agito
 make install
 ```
 
@@ -34,10 +34,10 @@ make install
 ## Usage
 
 ```bash
-figaro [options]
+agito [options]
 ```
 
-Figaro detects changes in your working tree and automatically:
+Agito detects changes in your working tree and automatically:
 
 1. Generates a branch name and creates the branch
 2. Generates a commit message and commits
@@ -82,7 +82,7 @@ ollama pull gemma4:latest
 
 ### Conflict on `stash pop`
 
-Figaro does not attempt to resolve conflicts automatically. It exits leaving the stash intact.
+Agito does not attempt to resolve conflicts automatically. It exits leaving the stash intact.
 Check the stash ID shown in the error and resolve manually:
 
 ```bash
@@ -93,8 +93,8 @@ git status
 git add .
 git stash drop stash@{0}
 
-# Re-run Figaro
-figaro
+# Re-run Agito
+agito
 ```
 
 ### Push failed — manual recovery
@@ -106,7 +106,7 @@ git push -u origin HEAD
 ### PR creation failed — manual recovery
 
 ```bash
-gh pr create --title "..." --body-file /tmp/figaro-pr-body-*.md --base main
+gh pr create --title "..." --body-file /tmp/agito-pr-body-*.md --base main
 ```
 
 ## Development
